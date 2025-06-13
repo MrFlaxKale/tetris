@@ -22,7 +22,31 @@ import {
   calculateLevel
 } from '../utils/gameUtils';
 import { BASE_SPEED, LEVEL_SPEED_MULTIPLIER } from '../constants/tetrominos';
-import { GameState, Tetromino, TetrominoPosition, TetrominoType } from '../types/tetris.types';
+import { GameState, Tetromino, TetrominoPosition, TetrominoType, BoardType } from '../types/tetris.types';
+
+// --- FUNCIÓN AUXILIAR PARA MOSTRAR LA PIEZA ACTUAL SOBRE EL TABLERO ---
+function getBoardWithCurrentPiece(board: BoardType, currentPiece: Tetromino | null): BoardType {
+  if (!currentPiece) return board;
+  const newBoard = board.map(row => [...row]);
+  const { shape, position, type } = currentPiece;
+  for (let y = 0; y < shape.length; y++) {
+    for (let x = 0; x < shape[y].length; x++) {
+      if (shape[y][x]) {
+        const boardY = position.y + y;
+        const boardX = position.x + x;
+        if (
+          boardY >= 0 &&
+          boardY < newBoard.length &&
+          boardX >= 0 &&
+          boardX < newBoard[0].length
+        ) {
+          newBoard[boardY][boardX] = type;
+        }
+      }
+    }
+  }
+  return newBoard;
+}
 
 const Tetris: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>({
@@ -176,43 +200,44 @@ const Tetris: React.FC = () => {
     };
   }, [handleKeyPress]);
 
+  // --- AQUÍ VA LA DECLARACIÓN DE displayBoard ---
+  const displayBoard = getBoardWithCurrentPiece(gameState.board, gameState.currentPiece);
+
   return (
     <StyledTetrisWrapper>
       <StyledTetris>
-const displayBoard = getBoardWithCurrentPiece(gameState.board, gameState.currentPiece);
-
-<StyledGameBoard>
-  {displayBoard.map((row, y) =>
-    row.map((cell, x) => (
-      <Cell key={`${y}-${x}`} type={cell} />
-    ))
-  )}
-</StyledGameBoard>
+        <StyledGameBoard>
+          {displayBoard.map((row, y) =>
+            row.map((cell, x) => (
+              <Cell key={`${y}-${x}`} type={cell} />
+            ))
+          )}
+        </StyledGameBoard>
         <StyledSidePanel>
           <StyledDisplay>
             <h3>Next Piece</h3>
             <StyledNextPiece>
-{Array.from({ length: 4 }).map((_, y) =>
-  Array.from({ length: 4 }).map((_, x) => {
-    // Centrar la pieza en la cuadrícula 4x4
-    let type: TetrominoType | null = null;
-    if (gameState.nextPiece) {
-      const shape = gameState.nextPiece.shape;
-      const offsetY = Math.floor((4 - shape.length) / 2);
-      const offsetX = Math.floor((4 - shape[0].length) / 2);
-      if (
-        y >= offsetY &&
-        y < offsetY + shape.length &&
-        x >= offsetX &&
-        x < offsetX + shape[0].length &&
-        shape[y - offsetY][x - offsetX]
-      ) {
-        type = gameState.nextPiece.type;
-      }
-    }
-    return <Cell key={`next-${y}-${x}`} type={type} />;
-  })
-)}
+              {Array.from({ length: 4 }).map((_, y) =>
+                Array.from({ length: 4 }).map((_, x) => {
+                  // Centrar la pieza en la cuadrícula 4x4
+                  let type: TetrominoType | null = null;
+                  if (gameState.nextPiece) {
+                    const shape = gameState.nextPiece.shape;
+                    const offsetY = Math.floor((4 - shape.length) / 2);
+                    const offsetX = Math.floor((4 - shape[0].length) / 2);
+                    if (
+                      y >= offsetY &&
+                      y < offsetY + shape.length &&
+                      x >= offsetX &&
+                      x < offsetX + shape[0].length &&
+                      shape[y - offsetY][x - offsetX]
+                    ) {
+                      type = gameState.nextPiece.type;
+                    }
+                  }
+                  return <Cell key={`next-${y}-${x}`} type={type} />;
+                })
+              )}
             </StyledNextPiece>
           </StyledDisplay>
           <StyledDisplay>
@@ -236,4 +261,4 @@ const displayBoard = getBoardWithCurrentPiece(gameState.board, gameState.current
   );
 };
 
-export default Tetris; 
+export default Tetris;
