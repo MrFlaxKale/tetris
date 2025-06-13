@@ -179,16 +179,15 @@ const Tetris: React.FC = () => {
   return (
     <StyledTetrisWrapper>
       <StyledTetris>
-        <StyledGameBoard>
-          {gameState.board.map((row, y) =>
-            row.map((cell, x) => (
-              <Cell
-                key={`${y}-${x}`}
-                type={cell}
-              />
-            ))
-          )}
-        </StyledGameBoard>
+const displayBoard = getBoardWithCurrentPiece(gameState.board, gameState.currentPiece);
+
+<StyledGameBoard>
+  {displayBoard.map((row, y) =>
+    row.map((cell, x) => (
+      <Cell key={`${y}-${x}`} type={cell} />
+    ))
+  )}
+</StyledGameBoard>
         <StyledSidePanel>
           <StyledDisplay>
             <h3>Next Piece</h3>
