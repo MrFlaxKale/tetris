@@ -29,10 +29,7 @@ const GlobalStyle = createGlobalStyle`
     color: #fff;
   }
 
-  @font-face {
-    font-family: 'Press Start 2P';
-    src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-  }
+
 `;
 
 const App: React.FC = () => {
