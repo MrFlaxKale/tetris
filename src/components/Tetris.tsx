@@ -22,7 +22,7 @@ import {
   calculateLevel
 } from '../utils/gameUtils';
 import { BASE_SPEED, LEVEL_SPEED_MULTIPLIER } from '../constants/tetrominos';
-import { GameState, Tetromino, TetrominoPosition } from '../types/tetris.types';
+import { GameState, Tetromino, TetrominoPosition, TetrominoType } from '../types/tetris.types';
 
 const Tetris: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>({
