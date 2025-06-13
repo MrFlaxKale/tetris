@@ -193,14 +193,14 @@ const Tetris: React.FC = () => {
           <StyledDisplay>
             <h3>Next Piece</h3>
             <StyledNextPiece>
-              {gameState.nextPiece?.shape.map((row, y) =>
-                row.map((cell, x) => (
-                  <Cell
-                    key={`next-${y}-${x}`}
-                    type={cell ? gameState.nextPiece?.type : null}
-                  />
-                ))
-              )}
+{gameState.nextPiece?.shape.map((row, y) =>
+  row.map((cell, x) => (
+    <Cell
+      key={`next-${y}-${x}`}
+      type={cell && gameState.nextPiece ? gameState.nextPiece.type : null}
+    />
+  ))
+)}
             </StyledNextPiece>
           </StyledDisplay>
           <StyledDisplay>
