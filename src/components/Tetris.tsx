@@ -193,13 +193,26 @@ const Tetris: React.FC = () => {
           <StyledDisplay>
             <h3>Next Piece</h3>
             <StyledNextPiece>
-{gameState.nextPiece?.shape.map((row, y) =>
-  row.map((cell, x) => (
-    <Cell
-      key={`next-${y}-${x}`}
-      type={cell && gameState.nextPiece ? gameState.nextPiece.type : null}
-    />
-  ))
+{Array.from({ length: 4 }).map((_, y) =>
+  Array.from({ length: 4 }).map((_, x) => {
+    // Centrar la pieza en la cuadrícula 4x4
+    let type: TetrominoType | null = null;
+    if (gameState.nextPiece) {
+      const shape = gameState.nextPiece.shape;
+      const offsetY = Math.floor((4 - shape.length) / 2);
+      const offsetX = Math.floor((4 - shape[0].length) / 2);
+      if (
+        y >= offsetY &&
+        y < offsetY + shape.length &&
+        x >= offsetX &&
+        x < offsetX + shape[0].length &&
+        shape[y - offsetY][x - offsetX]
+      ) {
+        type = gameState.nextPiece.type;
+      }
+    }
+    return <Cell key={`next-${y}-${x}`} type={type} />;
+  })
 )}
             </StyledNextPiece>
           </StyledDisplay>
