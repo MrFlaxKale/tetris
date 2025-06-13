@@ -21,7 +21,7 @@ import {
   calculateScore,
   calculateLevel
 } from '../utils/gameUtils';
-import { BOARD_WIDTH, BOARD_HEIGHT, BASE_SPEED, LEVEL_SPEED_MULTIPLIER } from '../constants/tetrominos';
+import { BASE_SPEED, LEVEL_SPEED_MULTIPLIER } from '../constants/tetrominos';
 import { GameState, Tetromino, TetrominoPosition } from '../types/tetris.types';
 
 const Tetris: React.FC = () => {
